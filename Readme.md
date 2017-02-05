@@ -14,7 +14,7 @@ Requirements are,
 * Keras
 * TensorFlow
 
-Accuracy on testset after 20 epochs is **99.23 %**.
+Accuracy on testset after 20 epochs is *99.23%*.
 
 The model visualization is shown in Figure 1.
 
