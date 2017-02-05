@@ -26,8 +26,8 @@ except ImportError:
 np.random.seed(1337)
 
 """ Initialize some variables. """
-no_classes = 10
-no_epoch = 20
+nb_classes = 10
+nb_epoch = 20
 batch_size = 128
 no_filter = 32          # Number of convolutional filters to use
 pool_size = (2, 2)      # Size of poolig area
@@ -78,8 +78,8 @@ print(X_test.shape[0], 'test samples.')
 """
 Convert class vectors to binary class matrices using the 1-hot encoding method.
 """
-Y_train = np_utils.to_categorical(y_train, no_classes)
-Y_test = np_utils.to_categorical(y_test, no_classes)
+Y_train = np_utils.to_categorical(y_train, nb_classes)
+Y_test = np_utils.to_categorical(y_test, nb_classes)
 
 """ Data visualization using t-SNE """
 if 'bh_sne' in sys.modules:
@@ -120,7 +120,7 @@ model.add(Flatten())
 model.add(Dense(128))
 model.add(Activation('relu'))
 model.add(Dropout(0.25))
-model.add(Dense(no_classes))
+model.add(Dense(nb_classes))
 model.add(Activation('softmax'))
 
 """ Let's look at the summary of the model. """
@@ -143,7 +143,7 @@ else:
     print('Training model...')
     history = model.fit(X_train, Y_train,
                         batch_size=batch_size,
-                        nb_epoch=no_epoch,
+                        nb_epoch=nb_epoch,
                         verbose=1,
                         validation_data=(X_test, Y_test))
 
