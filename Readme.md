@@ -16,14 +16,8 @@ Requirements are,
 
 Accuracy on testset after 20 epochs is *99.23%*.
 
-The model visualization is shown in Figure 1.
+Accuracy and loss for each epoch is shown in the figure.
 
-|![figure_1](fig/model.png)|
+|![figure_1](fig/acc_loss.png)|
 |---|
-|Figure 1. Model visualization.|
-
-Accuracy and loss for each epoch is shown in Figure 2.
-
-|![figure_2](fig/acc_loss.png)|
-|---|
-|Figure 2. Model accuracy and model loss for 20 epochs.|
+|Model accuracy and model loss for 20 epochs.|
