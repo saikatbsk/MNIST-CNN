@@ -20,4 +20,4 @@ Accuracy and loss for each epoch is shown in the figure.
 
 |![figure_1](fig/acc_loss.png)|
 |---|
-|Model accuracy and model loss for 20 epochs.|
+|Model accuracy and model loss.|
