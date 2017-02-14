@@ -11,17 +11,6 @@ from keras.models import Sequential
 from keras.layers.core import Dense, Dropout, Activation, Flatten
 from keras.layers import Convolution2D, MaxPooling2D
 
-""" Optional """
-try:
-    from keras.utils.visualize_util import plot
-except ImportError:
-    print('ImportError: Model visualization disabled!')
-
-try:
-    from tsne import bh_sne
-except ImportError:
-    print('ImportError: Data visualization (t-SNE) disabled!')
-
 """ Starting with a random seed ensures the reproducibility of the tests. """
 np.random.seed(1337)
 
@@ -29,7 +18,7 @@ np.random.seed(1337)
 nb_classes = 10
 nb_epoch = 20
 batch_size = 128
-no_filter = 32          # Number of convolutional filters to use
+nb_filter = 32          # Number of convolutional filters to use
 pool_size = (2, 2)      # Size of poolig area
 kernel_size = (3, 3)    # Convolution kernel size
 
@@ -81,37 +70,13 @@ Convert class vectors to binary class matrices using the 1-hot encoding method.
 Y_train = np_utils.to_categorical(y_train, nb_classes)
 Y_test = np_utils.to_categorical(y_test, nb_classes)
 
-""" Data visualization using t-SNE """
-if 'bh_sne' in sys.modules:
-    print('Visualizing training data using t-SNE...')
-
-    x_data = X_train.astype('float64')
-    x_data = x_data.reshape((x_data.shape[0], -1))
-    x_data = x_data[:1000]
-    y_data = y_train[:1000]
-
-    """ Perform t-SNE embedding """
-    vis_data = bh_sne(x_data)
-
-    """ Plot the data """
-    vis_x = vis_data[:, 0]
-    vis_y = vis_data[:, 1]
-
-    fig = plt.figure()
-    plt.scatter(vis_x, vis_y, c=y_data, cmap=plt.cm.get_cmap('jet', 10))
-    plt.colorbar(ticks=range(10))
-    plt.clim(-0.5, 9.5)
-    plt.title('Training data visualization with t-SNE')
-    plt.show()
-    fig.savefig('fig/data.png')
-
 """ Create a sequential model. """
 model = Sequential()
 
-model.add(Convolution2D(no_filter, kernel_size[0], kernel_size[1],
+model.add(Convolution2D(nb_filter, kernel_size[0], kernel_size[1],
                         border_mode='valid', input_shape=input_shape))
 model.add(Activation('relu'))
-model.add(Convolution2D(no_filter, kernel_size[0], kernel_size[1]))
+model.add(Convolution2D(nb_filter, kernel_size[0], kernel_size[1]))
 model.add(Activation('relu'))
 model.add(MaxPooling2D(pool_size=pool_size))
 model.add(Dropout(0.25))
@@ -125,10 +90,6 @@ model.add(Activation('softmax'))
 
 """ Let's look at the summary of the model. """
 model.summary()
-
-""" Save model visualization to file """
-if 'keras.utils.visualize_util' in sys.modules:
-    plot(model, to_file='fig/model.png', show_shapes=True)
 
 model.compile(loss='categorical_crossentropy', optimizer='adadelta', metrics=['accuracy'])
 
