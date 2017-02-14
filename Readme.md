@@ -16,8 +16,8 @@ Requirements are,
 
 Accuracy on testset after 20 epochs is *99.23%*.
 
-Accuracy and loss for each epoch is shown in the figure.
+Sample images from the training dataset:
+![figure_1](fig/sample_images.png)
 
-|![figure_1](fig/acc_loss.png)|
-|---|
-|Model accuracy and model loss.|
+Accuracy and loss for each epoch:
+![figure_2](fig/acc_loss.png)
