@@ -10,12 +10,12 @@ from keras.utils import np_utils
 from keras.models import Sequential
 from keras.layers.core import Dense, Dropout, Activation, Flatten
 from keras.layers import Convolution2D, MaxPooling2D
+from six.moves import cPickle as pickle
 
 """ Starting with a random seed ensures the reproducibility of the tests. """
 np.random.seed(1337)
 
 """ Initialize some variables. """
-nb_classes = 10
 nb_epoch = 20
 batch_size = 128
 nb_filter = 32          # Number of convolutional filters to use
@@ -26,7 +26,20 @@ kernel_size = (3, 3)    # Convolution kernel size
 The MNIST dataset is provided with Keras. MNIST is a dataset of 60,000 28x28
 grayscale images of the 10 digits, along with a test set of 10,000 images.
 """
-(X_train, y_train), (X_test, y_test) = mnist.load_data()
+#(X_train, y_train), (X_test, y_test) = mnist.load_data()
+#nb_classes = 10
+
+"""
+Load a custom dataset instead of MNIST.
+"""
+pickle_file = 'data/Chars74K.pickle'
+f = open(pickle_file, 'rb')
+t = pickle.load(f)
+X_train = t['train_dataset']
+y_train = t['train_labels']
+X_test = t['valid_dataset']
+y_test = t['valid_labels']
+nb_classes = 36
 
 """ Width and height of the training images. """
 img_width = X_train.shape[1]
@@ -93,7 +106,8 @@ model.summary()
 
 model.compile(loss='categorical_crossentropy', optimizer='adadelta', metrics=['accuracy'])
 
-weights_file = Path('mnist_cnn_weights.h5')
+#weights_file = Path('mnist_weights.h5')
+weights_file = Path('chars74k_weights.h5')
 
 if weights_file.is_file():
     """ Load pre-computed weights """
@@ -133,7 +147,6 @@ else:
     plt.legend(['train', 'validation'], loc='upper left')
 
     plt.show()
-    fig.savefig('fig/acc_loss.png')
 
 """ Evaluate the trained model """
 score = model.evaluate(X_test, Y_test, verbose=0)
